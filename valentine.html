@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Monofett&family=Xanh+Mono&display=swap" rel="stylesheet">
+
+<style>
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Xanh Mono', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #5a0f1b, #2a0b12);
+    color: white;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap; 
+    position: relative;
+}
+
+.box {
+    position: relative;
+    z-index: 1;
+    background: url('heart-print.avif') no-repeat center center;
+    background-size: cover;
+    border-radius: 25px;
+    padding: 4rem 2.5rem;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
+
+.box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 25px;
+    z-index: 0;
+}
+
+.box h1 {
+    position: relative;
+    z-index: 1;
+    font-family: 'Xanh Mono', monospace;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+}
+
+.box .subtitle {
+    position: relative;
+    z-index: 1;
+    font-family: 'Xanh Mono', monospace;
+    font-size: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+button {
+    font-family: 'Xanh Mono', monospace;
+    background-color: black;
+    color: white;
+    font-size: 1rem;
+    margin: 0.5rem;
+    padding: 0.4rem 2rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    min-width: 7rem;
+}
+
+button:hover {
+    background: #8b0000;
+}
+
+@keyframes wiggle {
+    0% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+    100% { transform: rotate(-5deg); }
+}
+
+.eat-image {
+    width: 200px;
+    height: auto;
+    animation: wiggle 2s ease-in-out infinite;
+}
+
+.hearts-container {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.heart {
+    position: absolute;
+    bottom: 0;
+    font-size: 1.5rem;
+    color: #ff4d88;
+    opacity: 0;
+    animation: floatUp 4s linear infinite;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    50% { transform: translateY(-150px) scale(1.2); opacity: 0.8; }
+    100% { transform: translateY(-300px) scale(1); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .eat-image {
+        width: 150px;
+    }
+
+    .box h1 {
+        font-size: 2rem;
+    }
+
+    .box .subtitle {
+        font-size: 1.2rem;
+    }
+
+    button {
+        font-size: 0.9rem;
+        padding: 0.5rem 1.5rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="box" id="box">
+        <h1>Will you be my Valentine? 💖</h1>
+        <p class="subtitle">I have a question for you...</p>
+
+        <button id="yes" onclick="yes()">Yes</button>
+        <button id="noBtn" onclick="no()">No</button>
+    </div>
+
+    <img src="src/eat.png" alt="eat" class="eat-image">
+    <div class="hearts-container" id="heartsContainer"></div>
+</div>
+
+<audio id="bgMusic" loop>
+    <source src="audio/careless-whisper.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("noBtn");
+const heartsContainer = document.getElementById("heartsContainer");
+const music = document.getElementById("bgMusic");
+
+if (localStorage.getItem("musicPlaying") === "true") music.play();
+
+let growFactor = 1;
+
+const noMessages = [
+    "Are you sure? Think again... 😢",
+    "I can't believe you're rejecting me! 😱",
+    "Noooo, don't say no! 😭",
+    "You hurt my feelings! 💔",
+    "Please reconsider! 😞",
+    "This is unbelievable! 😟",
+    "Don't break my heart like that! 💔😭",
+    "Are you absolutely certain? 😔",
+    "Why do you have to be so cold? 🥶",
+    "Oh no, my heart... 💔💔"
+];
+
+let messageIndex = 0;
+
+function yes() {
+    location.href = "yay.html";
+}
+
+function no() {
+    noBtn.textContent = noMessages[messageIndex];
+    messageIndex = (messageIndex + 1) % noMessages.length; 
+
+    growFactor *= 1.2;
+    yesBtn.style.transform = `scale(${growFactor})`;
+    yesBtn.style.transition = "transform 0.25s ease";
+
+    const img = new Image();
+    img.src = 'heart-print.avif';
+    img.onload = () => {
+        const bgWidth = img.width;
+        const bgHeight = img.height;
+
+        const yesWidth = yesBtn.offsetWidth * growFactor;
+        const yesHeight = yesBtn.offsetHeight * growFactor;
+
+        if (yesWidth >= bgWidth || yesHeight >= bgHeight) {
+            noBtn.style.display = 'none';
+        }
+    }
+}
+
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.fontSize = (Math.random() * 1 + 1.5) + 'rem';
+    heart.style.animationDuration = (3 + Math.random() * 2) + 's';
+    heart.innerText = '❤️';
+    heartsContainer.appendChild(heart);
+    setTimeout(() => heartsContainer.removeChild(heart), 5000);
+}
+
+setInterval(createHeart, 300);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

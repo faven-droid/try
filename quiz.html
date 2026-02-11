@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quiz</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+<link href="https://fonts.googleapis.com/css2?family=Monofett&family=Xanh+Mono&display=swap" rel="stylesheet">
+
+<style>
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Xanh Mono', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #5a0f1b, #2a0b12);
+    color: white;
+    padding: 40px 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+#she1 {
+    position: absolute;
+    right: 2rem; 
+    top: 1.7rem; 
+    transform: translateY(-50%);
+    width: 250px; 
+    max-width: 30%; 
+    z-index: 2;
+    animation: wiggle 4s ease-in-out infinite reverse;
+}
+
+#me1 {
+    position: absolute;
+    left: 2rem;  
+    bottom: 4rem;
+    transform: translateY(50%);
+    width: 250px; 
+    max-width: 30%;
+    z-index: 2;
+    animation: wiggle 4s ease-in-out infinite;
+}
+
+
+@keyframes wiggle {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(0) rotate(5deg); }
+}
+
+.quiz-container {
+    position: relative;
+    z-index: 1;
+    background: url('heart-print.avif') no-repeat center center;
+    background-size: cover;
+    border-radius: 25px;
+    padding: 60px 40px;
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    margin: 40px 0;
+}
+
+.quiz-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.35);
+    border-radius: 25px;
+    z-index: 0;
+}
+
+.quiz-container > * {
+    position: relative;
+    z-index: 1;
+}
+
+.timer {
+    font-family: 'Xanh Mono', monospace;
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.question {
+    font-family: 'Xanh Mono', monospace;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option {
+    font-family: 'Xanh Mono', monospace;
+    background-color: rgba(255, 255, 255, 0.25);
+    border-radius: 2%;
+    color: white;
+    font-size: 1rem;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.option:hover {
+    color: white ;
+    background: #8b0000;
+}
+
+.result {
+    font-family: 'Xanh Mono', monospace;
+    font-size: 3rem;
+    margin-top: 20px;
+}
+
+.final-message {
+    font-family: 'Xanh Mono', monospace;
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
+
+.restart-btn {
+    display: none;
+    margin: 25px auto 0 auto;
+    font-size: 1rem;
+    transition: all 0.25s ease;
+}
+
+.restart-btn:hover {
+    color: white ;
+    background: #8b0000;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    #me1, #she1 {
+        width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    #me1, #she1 {
+        width: 100px;
+    }
+}
+</style>
+
+</head>
+<body>
+
+<img src="src/me-1.png" id="me1" alt="Me">
+<img src="src/she-1.png" id="she1" alt="She">
+
+<div class="quiz-container">
+    <div class="timer">⏳ Time Left: <span id="time">30</span>s</div>
+    <div class="question">Sample Question: What is 2 + 2?</div>
+    <div class="options">
+        <div class="option">3</div>
+        <div class="option">4</div>
+        <div class="option">5</div>
+        <div class="option">6</div>
+    </div>
+    <div class="result"><span id="score"></span></div>
+    <div class="final-message"></div>
+    <button class="restart-btn">Retake Test</button>
+</div>
+
+<audio id="bgMusic" loop>
+    <source src="audio/glue-song.mp3" type="audio/mpeg">
+</audio>
+
+<script src="script.js"></script>
+<script>
+    const music = document.getElementById("bgMusic");
+    if (localStorage.getItem("musicPlaying") === "true") {
+        music.play();
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+</body>
+</html>

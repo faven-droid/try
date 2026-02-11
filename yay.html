@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>YAY</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Monofett&family=Xanh+Mono&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Xanh Mono', monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, #5a0f1b, #2a0b12);
+        padding: 1rem;
+        box-sizing: border-box;
+        color: white;
+        text-align: center;
+        flex-direction: column;
+    }
+
+    .yay-card {
+        position: relative;
+        z-index: 1;
+        background: url('heart-print.avif') no-repeat center center;
+        background-size: cover;
+        border-radius: 2rem;
+        padding: 4rem 3rem;
+        max-width: 700px;
+        width: 100%;
+        box-shadow: 0 0 3rem rgba(0,0,0,0.4);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .yay-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.3);
+        border-radius: 2rem;
+        z-index: 0;
+    }
+
+    h1 {
+        position: relative;
+        z-index: 1;
+        font-family: 'Xanh Mono', monospace;
+        font-size: 4rem;
+        font-weight: 700;
+        margin: 0 0 1rem 0;
+        text-shadow: 0 0 20px rgba(255,255,255,0.6);
+    }
+
+    p {
+        position: relative;
+        z-index: 1;
+        font-size: 1.5rem;
+        margin: 0;
+    }
+
+    .btn-container {
+        margin-top: 1rem; 
+    }
+</style>
+</head>
+<body>
+
+<div class="yay-card">
+    <h1>YAYYYYY 💕🥰</h1>
+    <p>I'm so happy you said YES!</p>
+</div>
+
+<div class="btn-container">
+    <button class="btn btn-light" id="toggleButton" onclick="redirectToLink()">Show message!</button>
+</div>
+
+<audio id="bgMusic" loop>
+    <source src="audio/ribs.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const music = document.getElementById("bgMusic");
+    if (localStorage.getItem("musicPlaying") === "true") music.play();
+
+    function redirectToLink() {
+        window.open("https://digibouquet.vercel.app/bouquet/ee7c903e-f2e4-4cf6-a19a-48fa748dddd4", "_blank");  
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+</body>
+</html>
